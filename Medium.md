@@ -1,6 +1,5 @@
-블록체인 부분 
-
-블록체인 일반
+## Medium Openbook Interview[Blockchain]
+### 블록체인 일반
 1. 토큰과 코인의 차이는 무엇인가요? (in 이더리움)
 2. 토큰 디자인에 대해서 아는대로 말해주세요.
 3. 이더리움 ERC20 & ERC721 는 무슨 차이가 있나요 
@@ -26,17 +25,29 @@
 
 하이퍼레저 패브릭
 1. 하이퍼레저 패브릭에서 트랜잭션 흐름을 설명해 주세요.
+  * 하이퍼레저(이하 HLF)에서의 트랜잭션은 query / invoke 두 가지로 나눌수 있다. 
+    + query: HLF 클라이언트에서 peer 로 원장 데이터를 조회하기 위한 트랜잭션이다. 트랜잭션 흐름은 client(sdk) -> peer -> client(sdk) 
+    + invoke: 데이터 추가 및 갱신을 위한 트랜잭션. invoke 트랜잭션은 새 블록을 생성한다. 따라서 트랜잭션 흐름은 다음과 같다. 
+    client(sdk) -> peer(readset/writeset을 함께 전달) -> client(proposal 생성) -> orderer(proposal을 전달하여 readset/writeset을 검증 : 이중지불 문제 방지) -> client에서 블록 생성여부 확인 
+    그후 orderer에서는 leader peer 에게 블록 생성 여부를 전파하고, 해당 블록을 leader peer 가 받아간 뒤에 자신을 따르는 follower 들에게 gossip으로 전파.
 2. 하이퍼레저 패브릭에서 MVCC 충돌이란 무엇인가요
+  * HLF는 블록 생성 시 데이터 검증을 readset 과 wirteset 을 비교하여 검증한다. 이때 peer 에서 생성된 readset/writeset 과 orderer 에서 검증한 readset/writeset 이 다를 경우, MVCC 충돌을 발생한다. 즉, 한 블록타임에 동일 원장데이터를 서로 다른 트랜잭션이 변경 시도시 발생하는 충돌이다. (이중지불문제)
 3. 하이퍼레저 패브릭에서 MSP 란 무엇인가요
+  * MSP(Membership Service Provider)로서, HLF 네트워크 상에서 트랜잭션을 만들기 위해 사용하는 인증서의 단위이다. 꼭 필요한 MSP는 CA certificate, Singer certificate, signer's private key 이며, 트랜잭션의 종류와 통신방식에 따라 필요한 파일이 추가된다. 
 4. 하이퍼레저 패브릭에서 Fabric-CA가 하는 역할은 무엇인가요
+  * HLF-CA 는 HLF에서 트랜잭션을 만들기 위한 사용자를 등록하고, 해당 사용자가 원할 때 사용자의 identity 에 맞는 MSP를 제공하며(enroll), 필요에 따라 해당 identity 를 삭제 혹은 만료시킨다. 
 5. 하이퍼레저 패브릭에서 RWSet이란 무엇인가요 
+  * 쉽게 말하면, 이중지불문제를 방지하고 속도를 높이기 위한 transaction 시뮬레이션 검증 세트이다. 어떤 트랜잭션이 원장데이터를 바꾸기 위해 읽은 데이터(readset)과 원장 데이터 변경 후의 데이터(writeset)을 시뮬레이션 한 후, 블록에 쓰여지기전 이 데이터를 커미터 피어와 오더러 가 검증하여, 이 검증을 통과한 트랜잭션 데이터만 블록에 추가한다. 
 6. 하이퍼레저 패브릭에서 블룸 필터는 어떻게 사용 되나요
 7. 하이퍼레저 패브릭에서 ACL 은 어떤 정보를 어떻게 가져와서 적용 되나요
 8. 하이퍼레저 패브릭에서 저장용량을 줄이기 위한 prunning은 어떻게 할 수 있을까요
 9. 하이퍼레저 패브릭에서 Kafka 는 왜 사용 되나요? RAFT 는 왜 등장 한 걸 까요?
 10. 하이퍼레저 패브릭에서 토큰은 만들 수 있나요?  FabToken 왜 만들어 졌을까요?  
 11. 하이퍼레저 패브릭에서 리더피어와 앵커피어란 무엇인가요?
+  * leader : 해당 organization 안에서 오더러에게 데이터를 받아오고 전파하기 위한 역할을 하는 피어
+  * anchor : cross organization 트랜잭션 시 각 organiation 의 endpoint 역할
 12. 하이퍼레저 패브릭에서 Gossip Protocol 는 왜 사용하나요?  
+  * 피어 간 상태 변화 통신 및 데이터 검증을 위해 사용된다. 특히, channel의 멤버쉽관리와 anchor 피어와 리더피어 선출과 관련된 피어간 상태 를 gossip을 통해 연결된 모든 피어가 공유하며, private block data 전파 역시 gossip을 통해 이루어진다. 
 
 암호학
 1.HMAC / PKI / ECDSA는 무엇인가요
