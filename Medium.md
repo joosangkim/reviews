@@ -60,7 +60,9 @@
 1. HMAC / PKI / ECDSA는 무엇인가요
 2. diffie-hellman 키 교환 알고리즘은 무엇인가요? 이더리움에서는 왜 사용하나요 
 3. 하이퍼레저 패브릭의 ECcert 란 무엇인가요? 패브릭에서는 왜 사용하나요 
+  * ECERT : Enrollment certification. Enrollment certification 은 certification 에 register 당시 입력된 attribute 를 갖고 있다. HLF chaincode library 는 이런 attirbute 를 추출 할 수 있는 기능을 제공하므로, chaincode를 사용하는 msp 의 attribute 에 따라 다른 제어가 가능하다. 
 4. 하이퍼레저 패브릭의 TCert 는 왜 없어졌고, 대체제는 무엇인가요 
+  * TCERT : Transaction certification. identiy mixer가 대체제
 5. Schnorr signature는 무엇인가요?
 6. 이더리움에서 영지식증명으로 활용 할 수 있는 것은 무엇이 있을까요
 7. 하이퍼레저 패브릭에서 영지식증명으로 활용 할 수 있는 것은 무엇이 있을까요
@@ -94,6 +96,7 @@
 
 #### 자바
 1. 자바의 메서드 인자 전달 방식과 Shallow Copy / Deep Copy 에 대해 설명 해주세요.
+  * 자바
 2. 자바의 HashMap 은 어떻게 동작하나요?
 3. 자바 리플렉션은 무엇이며, 활용처가 어떤게 있을 까요?
 
