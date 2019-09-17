@@ -263,3 +263,40 @@ Allows event-driven applications to efficiently demultiplex and dispatch service
 
 
 출처: https://hamait.tistory.com/1054?fbclid=IwAR3evELtDtaaXqHWpaI8z3C-ALIwXl_y1YGRsNJO8efILpNDXAOF8CJp7EY [HAMA 블로그]
+
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.stream.Collectors;
+import java.util.Collections;
+class Solution {
+    public int[] solution(String[] genres, int[] plays) {
+        int[] answer = {};
+        HashMap<String, Integer> numPlays = new HashMap<String, Integer>();
+        for(int i = 0; i < genres.length; i++){
+            if(numPlays.containsKey(genres[i])){
+                int n = numPlays.get(genres[i]);
+                numPlays.put(genres[i],plays[i]+n);
+            }else {
+                numPlays.put(genres[i],plays[i]);
+            }
+        }
+        Map<String, Integer> res = numPlays.entrySet()
+            .stream()
+            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+            .collect(Collectors.toMap(
+                Map.Entry::getKey, 
+                Map.Entry::getValue, 
+                (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        
+        
+        
+        System.out.println(res);
+        
+        
+        return answer;
+    }
+}
+```
